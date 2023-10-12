@@ -11,6 +11,7 @@ public class PieceTypes: MonoBehaviour
         ClosedCurlyBrace,
         BoolEqual,
         If,
+        ElseIf,
         True,
         False,
         Semicolon,
@@ -18,6 +19,12 @@ public class PieceTypes: MonoBehaviour
         RightParenthesis,
         SpinBox,
         ClickOnBox,
+        PressW, 
+        PressA,
+        PressS,
+        PressD,
+        MoveLeft, 
+        MoveRight
     }
 
 }

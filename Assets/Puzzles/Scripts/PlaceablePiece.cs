@@ -47,6 +47,9 @@ public class PlaceablePiece : PieceTypes
             case PieceType.If:
                 thisString = "if";
                 break;
+            case PieceType.ElseIf:
+                thisString = "else if";
+                break;
             case PieceType.True:
                 thisString = "true";
                 break;
@@ -67,6 +70,24 @@ public class PlaceablePiece : PieceTypes
                 break;
             case PieceType.ClickOnBox:
                 thisString = "clickOnBox";
+                break;
+            case PieceType.MoveLeft:
+                thisString = "moveLeft";
+                break;
+            case PieceType.MoveRight:
+                thisString = "moveRight";
+                break;
+            case PieceType.PressW:
+                thisString = "KeyCode.W";
+                break;
+            case PieceType.PressA:
+                thisString = "KeyCode.A";
+                break;
+            case PieceType.PressS:
+                thisString = "KeyCode.S";
+                break;
+            case PieceType.PressD:
+                thisString = "KeyCode.D";
                 break;
         }
         return thisString;

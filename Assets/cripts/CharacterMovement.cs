@@ -14,6 +14,17 @@ public class CharacterMovement : MonoBehaviour
     bool startJumpTimer = false;
     bool canJump = true;
     float canJumpTimer;
+    [SerializeField] bool movementUnlocked = false;
+    [SerializeField] SpriteRenderer sprite;
+    float spriteFlashTimer;
+    [SerializeField] Material[] materials;
+    int currentMat = 0;
+    EventManager eventManager;
+
+    private void Start()
+    {
+        eventManager = GameObject.FindGameObjectWithTag("EventManager").GetComponent<EventManager>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
         if (startJumpTimer)
         {
             jumpTimer += Time.deltaTime;
-            if(jumpTimer > 0.5f)
+            if (jumpTimer > 0.5f)
             {
                 rb.AddForce(Vector2.up * jumpAmount, ForceMode2D.Impulse);
                 jumpTimer = 0.0f;
@@ -46,18 +57,39 @@ public class CharacterMovement : MonoBehaviour
                 canJump = true;
             }
         }
-    GetMovementInput();
-        CharacterPosition();
-        CharacterRotation();
-        WalkAnimation();
-        FootstepAudio();
+        if (movementUnlocked)
+        {
+            GetMovementInput();
+            CharacterPosition();
+            CharacterRotation();
+            WalkAnimation();
+            FootstepAudio();
+        }
+        else
+        {
+            spriteFlashTimer += Time.deltaTime;
+            if(spriteFlashTimer >= 0.5f)
+            {
+               if(currentMat == 0)
+                {
+                    sprite.material = materials[1];
+                    currentMat = 1;
+                }
+                else
+                {
+                    sprite.material = materials[0];
+                    currentMat = 0;
+                }
+                spriteFlashTimer = 0.0f;
+            }
+
+        }
     }
 
     void GetMovementInput()
     {
         movement.x = Input.GetAxis("Horizontal");
         movementSqrMagnitude = Vector2.SqrMagnitude(movement);
-        Debug.Log(movement);
     }
 
     void CharacterPosition()
@@ -66,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
     }
     void CharacterRotation()
     {
-        if(movement != Vector2.zero)
+        if (movement != Vector2.zero)
         {
             if (movement.x < 0)
                 transform.localScale = new Vector2(-0.5f, 0.5f);
@@ -81,5 +113,13 @@ public class CharacterMovement : MonoBehaviour
     void FootstepAudio()
     {
 
+    }
+
+    private void OnMouseDown()
+    {
+        if (!movementUnlocked)
+        {
+            eventManager.StartPuzzle("Movement");
+        }
     }
 }
