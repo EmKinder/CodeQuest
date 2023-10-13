@@ -25,28 +25,37 @@ public class PiecePlacement : PieceTypes
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Piece" && !blockOccupied)
+        if (other.gameObject.tag == "Piece")
         {
-           // Debug.Log("Triggering");
-            thisBlock = other.gameObject.GetComponent<BlockHold>();
-            if (!thisBlock.getIsHolding())
+            if (!blockOccupied)
             {
+                // Debug.Log("Triggering");
+                thisBlock = other.gameObject.GetComponent<BlockHold>();
+                if (!thisBlock.getIsHolding())
+                {
                     other.gameObject.transform.position = this.gameObject.transform.position;
                     placedPiece = thisBlock.getPieceType();
                     Debug.Log(placedPiece);
                     blockOccupied = true;
                 }
+            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Piece" && blockOccupied && thisBlock.getPieceType() == placedPiece)
+        if (other.gameObject.tag == "Piece" && blockOccupied)
         {
-         
-            blockOccupied = false;
-            placedPiece = PieceType.Null;
-
+            {
+                thisBlock = other.gameObject.GetComponent<BlockHold>();
+                {
+                    if (thisBlock.getPieceType() == placedPiece)
+                    {
+                        blockOccupied = false;
+                        placedPiece = PieceType.Null;
+                    }
+                }
+            }
         }
     }
 
