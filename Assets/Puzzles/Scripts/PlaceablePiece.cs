@@ -5,7 +5,7 @@ using TMPro;
 using System.Globalization;
 using UnityEngine.EventSystems;
 
-
+[ExecuteInEditMode]
 public class PlaceablePiece : PieceTypes
 {
     [SerializeField] public PieceType thisPieceType;
@@ -22,13 +22,12 @@ public class PlaceablePiece : PieceTypes
         pieceTypeString = GetTextString(thisPieceType);
         pieceStringLength = new StringInfo(pieceTypeString).LengthInTextElements;
         Debug.Log(pieceTypeString + " + " + pieceStringLength);
-        thisBackground.transform.localScale = new Vector2((float)pieceStringLength/2*0.7f, 0.7f);
+        thisBackground.transform.localScale = new Vector2((float)pieceStringLength / 2 * 0.7f, 0.7f);
         thisText.rectTransform.sizeDelta = new Vector2(40 + pieceStringLength * 40, 1);
         thisText.text = pieceTypeString;
+        parent.gameObject.name = thisPieceType + "Piece";
+        parent.GetComponent<BoxCollider2D>().size = new Vector2(this.transform.lossyScale.x - this.transform.lossyScale.x / 4, this.transform.lossyScale.y - this.transform.lossyScale.y / 4);
     }
-
-    // Update is called once per frame
-
 
     public string GetTextString(PieceType piece)
     {

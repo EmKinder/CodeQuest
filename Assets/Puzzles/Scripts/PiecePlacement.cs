@@ -27,7 +27,7 @@ public class PiecePlacement : PieceTypes
     {
         if (other.gameObject.tag == "Piece" && !blockOccupied)
         {
-            Debug.Log("Triggering");
+           // Debug.Log("Triggering");
             thisBlock = other.gameObject.GetComponent<BlockHold>();
             if (!thisBlock.getIsHolding())
             {

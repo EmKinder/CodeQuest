@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Piece
   - EventManager
+  - InstructionText
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Pieces
   - Water
   - UI
   - 

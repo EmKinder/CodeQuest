@@ -83,6 +83,13 @@ public class CharacterMovement : MonoBehaviour
                 spriteFlashTimer = 0.0f;
             }
 
+           // Debug.Log(eventManager.GetPuzzleActiveName());
+
+            if(eventManager.GetPuzzleActiveName() == "Movement")
+            {
+                
+                CheckMovementSuccess();
+            }
         }
     }
 
@@ -120,6 +127,18 @@ public class CharacterMovement : MonoBehaviour
         if (!movementUnlocked)
         {
             eventManager.StartPuzzle("Movement");
+        }
+    }
+
+    void CheckMovementSuccess()
+    {
+        if (eventManager.GetLastPuzzleSuccess())
+        {
+            movementUnlocked = true;
+            eventManager.SetLastPuzzleSuccess(false);
+            eventManager.SetPuzzleActiveName(null);
+            sprite.material = materials[0];
+
         }
     }
 }

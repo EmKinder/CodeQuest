@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4071662445996742568}
   - component: {fileID: 4071662445996742569}
   - component: {fileID: 4071662445996742551}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4071662445996742570}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.35, y: 0.7, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4071662447075126829}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4071662446563556991}
   - component: {fileID: 4071662446563556976}
   - component: {fileID: 4071662446563556977}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 4071662446689630426}
   - component: {fileID: 4071662446689630424}
   - component: {fileID: 4071662446689630425}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1, y: 1}
+  m_SizeDelta: {x: 80, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4071662446689630424
 CanvasRenderer:
@@ -349,8 +349,8 @@ GameObject:
   - component: {fileID: 4071662447075126827}
   - component: {fileID: 4071662447075126828}
   - component: {fileID: 4071662447075126826}
-  m_Layer: 0
-  m_Name: Boxes
+  m_Layer: 3
+  m_Name: OpenCurlyBracePiece
   m_TagString: Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.2625, y: 0.525}
   m_EdgeRadius: 0
 --- !u!50 &4071662447075126828
 Rigidbody2D:
