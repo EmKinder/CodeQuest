@@ -4,130 +4,133 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    private Vector2 movement;
-    private float movementSqrMagnitude;
-    public float walkSpeed = 3.5f;
+    [SerializeField] SpriteRenderer sprite;
+    [SerializeField] Material[] materials;
     public Animator anim;
     public Rigidbody2D rb;
+    EventManager eventManager;
+
+    private Vector2 movement;
+    public float movementSqrMagnitude;
+    public float walkSpeed = 3.5f;
     public float jumpAmount = 7;
+
+    bool movementUnlocked = true;
+    bool jumpUnlocked = true;
+
     float jumpTimer;
     bool startJumpTimer = false;
     bool canJump = true;
     float canJumpTimer;
-    [SerializeField] bool movementUnlocked = false;
-    [SerializeField] SpriteRenderer sprite;
     float spriteFlashTimer;
-    [SerializeField] Material[] materials;
+
     int currentMat = 0;
-    EventManager eventManager;
+
+    public Tweener tweener;
 
     private void Start()
     {
         eventManager = GameObject.FindGameObjectWithTag("EventManager").GetComponent<EventManager>();
+
     }
     // Update is called once per frame
     void Update()
     {
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+       /* #region Jump Logic
+        if (jumpUnlocked)
         {
-            canJump = false;
-            startJumpTimer = true;
-
-            anim.SetTrigger("isJumping");
-        }
-        if (startJumpTimer)
-        {
-            jumpTimer += Time.deltaTime;
-            if (jumpTimer > 0.5f)
+            if (Input.GetKeyDown(KeyCode.Space) && canJump)
             {
-                rb.AddForce(Vector2.up * jumpAmount, ForceMode2D.Impulse);
-                jumpTimer = 0.0f;
-                startJumpTimer = false;
+                canJump = false;
+                startJumpTimer = true;
+
+                anim.SetTrigger("isJumping");
 
             }
-        }
-        if (!canJump)
-        {
-            canJumpTimer += Time.deltaTime;
-            if (canJumpTimer > 1.0f)
+            if (startJumpTimer)
             {
-                canJumpTimer = 0.0f;
-                canJump = true;
+                jumpTimer += Time.deltaTime;
+                if (jumpTimer > 0.2f)
+                {
+                   
+
+                    jumpTimer = 0.0f;
+                    startJumpTimer = false;
+
+                }
+            }
+            if (!canJump)
+            {
+                canJumpTimer += Time.deltaTime;
+                if (canJumpTimer > 1.0f)
+                {
+                    canJumpTimer = 0.0f;
+                    canJump = true;
+                }
             }
         }
-        if (movementUnlocked)
+        #endregion
+
+        if (Input.GetKeyDown(KeyCode.D)) //MOVE RIGHT
         {
-            GetMovementInput();
-            CharacterPosition();
-            CharacterRotation();
-            WalkAnimation();
-            FootstepAudio();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.A)) //MOVE LEFT
+        {
+
+        }*/
+
+        if (tweener.HasActiveTween() && canJump)
+        {
+            anim.SetFloat("MovingSpeed", 1.0f);
+
         }
         else
         {
-            spriteFlashTimer += Time.deltaTime;
-            if(spriteFlashTimer >= 0.5f)
-            {
-               if(currentMat == 0)
-                {
-                    sprite.material = materials[1];
-                    currentMat = 1;
-                }
-                else
-                {
-                    sprite.material = materials[0];
-                    currentMat = 0;
-                }
-                spriteFlashTimer = 0.0f;
-            }
-
-           // Debug.Log(eventManager.GetPuzzleActiveName());
-
-            if(eventManager.GetPuzzleActiveName() == "Movement")
-            {
-                
-                CheckMovementSuccess();
-            }
+            anim.SetFloat("MovingSpeed", 0.0f);
         }
     }
 
-    void GetMovementInput()
+    public void MoveLeft()
     {
-        movement.x = Input.GetAxis("Horizontal");
-        movementSqrMagnitude = Vector2.SqrMagnitude(movement);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(-1.0f, 0.0f, 0.0f), 0.5f);
+        CharacterRotation("Left");
+
     }
 
-    void CharacterPosition()
+    public void MoveRight()
     {
-        transform.Translate(movement * walkSpeed * Time.deltaTime, Space.World);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(1.0f, 0.0f, 0.0f), 0.5f);
+        CharacterRotation("Right");
     }
-    void CharacterRotation()
+
+    public void JumpForward()
     {
-        if (movement != Vector2.zero)
-        {
-            if (movement.x < 0)
-                transform.localScale = new Vector2(-0.5f, 0.5f);
-            else
-                transform.localScale = new Vector2(0.5f, 0.5f);
-        }
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(1.0f, 1.0f, 0.0f), 1.0f);
+        CharacterRotation("Right");
+        anim.SetTrigger("isJumping");
+
+    }
+
+    public void JumpBack()
+    {
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(-1.0f, 1.0f, 0.0f), 1.0f);
+        CharacterRotation("Left");
+        anim.SetTrigger("isJumping");
+
+    }
+
+    void CharacterRotation(string rot)
+    {
+        if (rot == "Left")
+            transform.localScale = new Vector2(-0.5f, 0.5f);
+        else
+            transform.localScale = new Vector2(0.5f, 0.5f);
     }
     void WalkAnimation()
     {
         anim.SetFloat("MovingSpeed", movementSqrMagnitude);
-    }
-    void FootstepAudio()
-    {
-
-    }
-
-    private void OnMouseDown()
-    {
-        if (!movementUnlocked)
-        {
-            eventManager.StartPuzzle("Movement");
-        }
     }
 
     void CheckMovementSuccess()
@@ -139,6 +142,25 @@ public class CharacterMovement : MonoBehaviour
             eventManager.SetPuzzleActiveName(null);
             sprite.material = materials[0];
 
+        }
+    }
+
+    void SpriteFlash()
+    {
+        spriteFlashTimer += Time.deltaTime;
+        if (spriteFlashTimer >= 0.5f)
+        {
+            if (currentMat == 0)
+            {
+                sprite.material = materials[1];
+                currentMat = 1;
+            }
+            else
+            {
+                sprite.material = materials[0];
+                currentMat = 0;
+            }
+            spriteFlashTimer = 0.0f;
         }
     }
 }

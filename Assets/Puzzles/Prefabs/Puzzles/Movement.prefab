@@ -705,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a4bff7762d3944e903307b869f2a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctPieces: 0400000009000000100000000a0000000100000012000000080000000200000005000000090000000e0000000a00000001000000110000000800000002000000
+  correctPieces: 0400000009000000100000000a0000000100000013000000080000000200000005000000090000000e0000000a00000001000000120000000800000002000000
   piecePlacements:
   - {fileID: 1120014188890263599}
   - {fileID: 1120014189845545568}
@@ -3045,7 +3045,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4071662445996742551, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: thisPieceType
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4071662445996742568, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_LocalScale.x
@@ -3093,7 +3093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4071662447075126829, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.76
+      value: 3.39
       objectReference: {fileID: 0}
     - target: {fileID: 4071662447075126829, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4495,7 +4495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4071662445996742568, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.1499999
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 4071662445996742568, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_LocalScale.y
@@ -4515,15 +4515,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4071662446689630425, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_text
-      value: moveRight
+      value: moveLeft
       objectReference: {fileID: 0}
     - target: {fileID: 4071662446689630426, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 400
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 4071662447075126827, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_Size.x
-      value: 2.3625
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 4071662447075126828, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_Constraints
@@ -4575,7 +4575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4071662447075126830, guid: d91f9564dabb70545a6097770c465a81, type: 3}
       propertyPath: m_Name
-      value: MoveRightPiece
+      value: MoveLeftPiece
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d91f9564dabb70545a6097770c465a81, type: 3}

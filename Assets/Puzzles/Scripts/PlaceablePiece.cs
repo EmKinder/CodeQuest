@@ -19,7 +19,7 @@ public class PlaceablePiece : PieceTypes
     // Start is called before the first frame update
     void Start()
     {
-        pieceTypeString = GetTextString(thisPieceType);
+       // pieceTypeString = GetTextString(thisPieceType);
         pieceStringLength = new StringInfo(pieceTypeString).LengthInTextElements;
         Debug.Log(pieceTypeString + " + " + pieceStringLength);
         thisBackground.transform.localScale = new Vector2((float)pieceStringLength / 2 * 0.7f, 0.7f);
@@ -29,7 +29,7 @@ public class PlaceablePiece : PieceTypes
         parent.GetComponent<BoxCollider2D>().size = new Vector2(this.transform.lossyScale.x - this.transform.lossyScale.x / 4, this.transform.lossyScale.y - this.transform.lossyScale.y / 4);
     }
 
-    public string GetTextString(PieceType piece)
+   /* public string GetTextString(PieceType piece)
     {
         string thisString = null;
         switch (piece)
@@ -90,7 +90,7 @@ public class PlaceablePiece : PieceTypes
                 break;
         }
         return thisString;
-    }
+    }*/
 
 
 }

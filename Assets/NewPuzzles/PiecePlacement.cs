@@ -9,7 +9,7 @@ public class PiecePlacement : PieceTypes
     bool sizeChanged = false;
     bool normalSize = true;
     bool blockOccupied = false;
-    BlockHold thisBlock;
+    Piece thisBlock;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,7 @@ public class PiecePlacement : PieceTypes
             if (!blockOccupied)
             {
                 // Debug.Log("Triggering");
-                thisBlock = other.gameObject.GetComponent<BlockHold>();
+                thisBlock = other.gameObject.GetComponent<Piece>();
                 if (!thisBlock.getIsHolding())
                 {
                     other.gameObject.transform.position = this.gameObject.transform.position;
@@ -47,7 +47,7 @@ public class PiecePlacement : PieceTypes
         if (other.gameObject.tag == "Piece" && blockOccupied)
         {
             {
-                thisBlock = other.gameObject.GetComponent<BlockHold>();
+                thisBlock = other.gameObject.GetComponent<Piece>();
                 {
                     if (thisBlock.getPieceType() == placedPiece)
                     {
