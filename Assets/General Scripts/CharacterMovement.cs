@@ -173,10 +173,10 @@ public class CharacterMovement : MonoBehaviour
     public IEnumerator LevelOneFin()
     {
         movingToNextLevel = true;
-        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(1.0f, -2.0f, 0.0f), 1.0f);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, new Vector3(this.gameObject.transform.position.x + 1.0f, -2, 0), 1.0f);
         anim.SetTrigger("IsJumping");
         yield return new WaitForSeconds(1.0f);
-        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(5.0f, 0.0f, 0.0f), 2.5f);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, new Vector3(this.gameObject.transform.position.x + 5.0f, -2, 0), 2.5f);
         anim.SetFloat("MovingSpeed", 1.0f);
         yield return new WaitForSeconds(2.5f);
         movingToNextLevel = false;

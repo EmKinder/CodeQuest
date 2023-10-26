@@ -70,11 +70,13 @@ IEnumerator Movement()
             {
                 Debug.Log("Incorrect!");
                 character.transform.position = startPos;
+                RemoveAllPieces();
                 return;
             }
         }
         Debug.Log("Correct!");
         StartCoroutine(character.LevelOneFin());
+        RemoveAllPieces();
 
     }
 
