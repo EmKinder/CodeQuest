@@ -36,7 +36,7 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       /* #region Jump Logic
+        #region Old Logic
         if (jumpUnlocked)
         {
             if (Input.GetKeyDown(KeyCode.Space) && canJump)
@@ -69,7 +69,7 @@ public class CharacterMovement : MonoBehaviour
                 }
             }
         }
-        #endregion
+       
 
         if (Input.GetKeyDown(KeyCode.D)) //MOVE RIGHT
         {
@@ -79,7 +79,9 @@ public class CharacterMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A)) //MOVE LEFT
         {
 
-        }*/
+        }
+
+        #endregion
 
         if (tweener.HasActiveTween() && canJump)
         {
@@ -162,5 +164,10 @@ public class CharacterMovement : MonoBehaviour
             }
             spriteFlashTimer = 0.0f;
         }
+    }
+
+    public Vector3 GetStartPos()
+    {
+        return this.transform.position;
     }
 }

@@ -8,6 +8,7 @@ public class CorrectPieces : PieceTypes
     public PieceType[] placedPieces;
     [SerializeField] PiecePlacement[] piecePlacements;
     public CharacterMovement character;
+    Vector3 startPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,18 +26,14 @@ public class CorrectPieces : PieceTypes
 
     public void CheckIfCorrect()
     {
-
+        startPos = character.GetStartPos();
         StartCoroutine(Movement());
-        //  if(correctPieces[i] != placedPieces[i])
-        // {
-        //   Debug.Log("Incorrect!");
-        // return;
-        // }
-        //}
-        //Debug.Log("Correct!");
+
+
     }
 IEnumerator Movement()
 {
+
     for (int i = 0; i < correctPieces.Length; i++)
     {
             if (placedPieces[i] == PieceType.MoveForward)
@@ -61,5 +58,21 @@ IEnumerator Movement()
             }
             yield return new WaitForSeconds(0.5f);
         }
+        IfGoBack();
+    }
+
+    void IfGoBack()
+    {
+        
+        for (int i = 0; i < correctPieces.Length; i++)
+        {
+            if (correctPieces[i] != placedPieces[i])
+            {
+                Debug.Log("Incorrect!");
+                character.transform.position = startPos;
+                return;
+            }
+        }
+        Debug.Log("Correct!");
     }
 }
