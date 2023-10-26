@@ -75,7 +75,15 @@ IEnumerator Movement()
         }
         Debug.Log("Correct!");
         StartCoroutine(character.LevelOneFin());
-        //character.StartCoLevelOneFin();
 
+    }
+
+    public void RemoveAllPieces()
+    {
+        GameObject[] piecesInScene = GameObject.FindGameObjectsWithTag("Piece");
+        foreach (GameObject go in piecesInScene)
+            Destroy(go);
+        for(int i = 0; i < placedPieces.Length; i++)
+            placedPieces[i] = PieceType.Null;
     }
 }
