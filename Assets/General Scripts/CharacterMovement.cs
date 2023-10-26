@@ -27,6 +27,8 @@ public class CharacterMovement : MonoBehaviour
     int currentMat = 0;
 
     public Tweener tweener;
+    bool movingToNextLevel = false;
+    bool cameraResetting = false;
 
     private void Start()
     {
@@ -83,7 +85,7 @@ public class CharacterMovement : MonoBehaviour
 
         #endregion
 
-        if (tweener.HasActiveTween() && canJump)
+        if (tweener.HasActiveTween() && canJump && !cameraResetting)
         {
             anim.SetFloat("MovingSpeed", 1.0f);
 
@@ -92,6 +94,8 @@ public class CharacterMovement : MonoBehaviour
         {
             anim.SetFloat("MovingSpeed", 0.0f);
         }
+        if(movingToNextLevel)
+            Camera.main.transform.position = new Vector3(this.transform.position.x - 6.0f, 0.0f, -10);
     }
 
     public void MoveLeft()
@@ -164,6 +168,22 @@ public class CharacterMovement : MonoBehaviour
             }
             spriteFlashTimer = 0.0f;
         }
+    }
+
+    public IEnumerator LevelOneFin()
+    {
+        movingToNextLevel = true;
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(1.0f, -2.0f, 0.0f), 1.0f);
+        anim.SetTrigger("IsJumping");
+        yield return new WaitForSeconds(1.0f);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(5.0f, 0.0f, 0.0f), 2.5f);
+        anim.SetFloat("MovingSpeed", 1.0f);
+        yield return new WaitForSeconds(2.5f);
+        movingToNextLevel = false;
+        cameraResetting = true;
+        tweener.AddTween(Camera.main.transform, Camera.main.transform.position, new Vector3(this.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 2.5f);
+        yield return new WaitForSeconds(2.5f);
+        cameraResetting = false;
     }
 
     public Vector3 GetStartPos()

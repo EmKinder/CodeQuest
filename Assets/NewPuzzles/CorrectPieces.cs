@@ -74,5 +74,8 @@ IEnumerator Movement()
             }
         }
         Debug.Log("Correct!");
+        StartCoroutine(character.LevelOneFin());
+        //character.StartCoLevelOneFin();
+
     }
 }
