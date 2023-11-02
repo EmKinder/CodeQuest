@@ -8,10 +8,12 @@ public class Piece : PieceTypes
     // public PieceTypes thisPiece;
     [SerializeField] public PieceType thisPieceType;
     bool isHolding = true;
+    //[SerializeField] public GameObject parent;
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("PuzzleCanvas").transform);
+        this.gameObject.GetComponentInChildren<Canvas>().overrideSorting = true;
     }
 
     // Update is called once per frame

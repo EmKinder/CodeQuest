@@ -7,6 +7,7 @@ TagManager:
   - Piece
   - EventManager
   - InstructionText
+  - PuzzleCanvas
   layers:
   - Default
   - TransparentFX

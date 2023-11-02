@@ -9,6 +9,10 @@ public class CorrectPieces : PieceTypes
     [SerializeField] PiecePlacement[] piecePlacements;
     public CharacterMovement character;
     Vector3 startPos;
+    [SerializeField] private StarsCollected stars;
+    bool level3FirstMoveCorrect = false;
+    bool level3SecondMoveCorrect = false;
+    Vector3 cameraStartPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,19 +31,36 @@ public class CorrectPieces : PieceTypes
     public void CheckIfCorrect()
     {
         startPos = character.GetStartPos();
+        stars.SetLevelAttempts();
         StartCoroutine(Movement());
 
 
     }
-IEnumerator Movement()
-{
-
-    for (int i = 0; i < correctPieces.Length; i++)
+    IEnumerator Movement()
     {
+        for (int i = 0; i < correctPieces.Length; i++)
+        {
+            if (stars.GetStarsCollected() == 2)
+            {
+                cameraStartPos = Camera.main.transform.position;
+                if (i == 0 && placedPieces[i] == PieceType.MoveForward)
+                    level3FirstMoveCorrect = true;
+                if (i == 1 && placedPieces[i] == PieceType.MoveForward && level3FirstMoveCorrect)
+                {
+                    level3SecondMoveCorrect = true;
+                }
+
+            }
             if (placedPieces[i] == PieceType.MoveForward)
             {
                 character.MoveRight();
                 yield return new WaitForSeconds(0.5f);
+                if (level3SecondMoveCorrect)
+                {
+                    character.DropDown();
+                    yield return new WaitForSeconds(2.0f);
+                    level3SecondMoveCorrect = false;
+                }
             }
             else if (placedPieces[i] == PieceType.MoveBackward)
             {
@@ -57,26 +78,47 @@ IEnumerator Movement()
                 yield return new WaitForSeconds(1.5f);
             }
             yield return new WaitForSeconds(0.5f);
+            Debug.Log(placedPieces[i]);
         }
         IfGoBack();
     }
 
     void IfGoBack()
     {
-        
+
         for (int i = 0; i < correctPieces.Length; i++)
         {
             if (correctPieces[i] != placedPieces[i])
             {
                 Debug.Log("Incorrect!");
                 character.transform.position = startPos;
-                RemoveAllPieces();
+                if (stars.GetStarsCollected() == 2)
+
+                    RemoveAllPieces();
                 return;
             }
         }
         Debug.Log("Correct!");
-        StartCoroutine(character.LevelOneFin());
+        stars.SetStarsCollected();
+        int thisStars = stars.GetStarsCollected();
+        if (thisStars == 1)
+        {
+            StartCoroutine(character.LevelOneFin());
+        }
+        else if (thisStars == 2)
+        {
+            StartCoroutine(character.LevelTwoFin());
+        }
+        else if (thisStars == 3)
+        {
+            StartCoroutine(character.LevelThreeFin());
+        }
+
         RemoveAllPieces();
+        UpdatePuzzle(thisStars);
+        Camera.main.transform.position = cameraStartPos;
+
+
 
     }
 
@@ -85,7 +127,29 @@ IEnumerator Movement()
         GameObject[] piecesInScene = GameObject.FindGameObjectsWithTag("Piece");
         foreach (GameObject go in piecesInScene)
             Destroy(go);
-        for(int i = 0; i < placedPieces.Length; i++)
+        for (int i = 0; i < placedPieces.Length; i++)
             placedPieces[i] = PieceType.Null;
+    }
+
+    void UpdatePuzzle(int num)
+    {
+        if (num == 1)
+        {
+            correctPieces[0] = PieceType.MoveForward;
+            correctPieces[1] = PieceType.MoveForward;
+            correctPieces[2] = PieceType.JumpForward;
+            correctPieces[3] = PieceType.JumpForward;
+            correctPieces[4] = PieceType.MoveForward;
+            correctPieces[5] = PieceType.MoveForward;
+        }
+        else if (num == 2)
+        {
+            correctPieces[0] = PieceType.MoveForward;
+            correctPieces[1] = PieceType.MoveForward;
+            correctPieces[2] = PieceType.JumpBackward;
+            correctPieces[3] = PieceType.JumpBackward;
+            correctPieces[4] = PieceType.MoveBackward;
+            correctPieces[5] = PieceType.MoveBackward;
+        }
     }
 }

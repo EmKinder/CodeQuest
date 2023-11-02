@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] SpriteRenderer sprite;
@@ -30,9 +30,19 @@ public class CharacterMovement : MonoBehaviour
     bool movingToNextLevel = false;
     bool cameraResetting = false;
 
+    bool cameraCanFollow;
+
+    public GameObject puzzle;
+
+    [SerializeField] private GameObject levelFinishedUI;
+    [SerializeField] private TextMeshProUGUI levelFinishedText;
+
+    public StarsCollected stars;
+
     private void Start()
     {
         eventManager = GameObject.FindGameObjectWithTag("EventManager").GetComponent<EventManager>();
+        levelFinishedUI.SetActive(false);
 
     }
     // Update is called once per frame
@@ -96,6 +106,15 @@ public class CharacterMovement : MonoBehaviour
         }
         if(movingToNextLevel)
             Camera.main.transform.position = new Vector3(this.transform.position.x - 6.0f, 0.0f, -10);
+
+        if (!tweener.HasActiveTween())
+            cameraCanFollow = false;
+        if (cameraCanFollow)
+        {
+            Camera.main.transform.localPosition = new Vector3(this.transform.position.x - 6.0f, this.transform.position.y + 2.0f, -10);
+           // puzzle.transform.localPosition = new Vector3(581.85f, puzzle.transform.position.y, puzzle.transform.position.z);
+        }
+        
     }
 
     public void MoveLeft()
@@ -126,6 +145,13 @@ public class CharacterMovement : MonoBehaviour
         anim.SetTrigger("isJumping");
 
     }
+
+    public void DropDown()
+    {
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, this.gameObject.transform.position + new Vector3(0.0f, -12.0f ,0.0f), 2.0f);
+        cameraCanFollow = true;
+    }
+
 
     void CharacterRotation(string rot)
     {
@@ -169,8 +195,20 @@ public class CharacterMovement : MonoBehaviour
             spriteFlashTimer = 0.0f;
         }
     }
-
     public IEnumerator LevelOneFin()
+    {
+        movingToNextLevel = true;
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, new Vector3(this.gameObject.transform.position.x + 6.0f, this.gameObject.transform.position.y, 0), 3.0f);
+        anim.SetFloat("MovingSpeed", 1.0f);
+        yield return new WaitForSeconds(3.0f);
+        movingToNextLevel = false;
+        cameraResetting = true;
+        tweener.AddTween(Camera.main.transform, Camera.main.transform.position, new Vector3(this.gameObject.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z), 2.5f);
+        yield return new WaitForSeconds(2.5f);
+        cameraResetting = false;
+    }
+
+        public IEnumerator LevelTwoFin()
     {
         movingToNextLevel = true;
         tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, new Vector3(this.gameObject.transform.position.x + 1.0f, -2, 0), 1.0f);
@@ -186,7 +224,20 @@ public class CharacterMovement : MonoBehaviour
         cameraResetting = false;
     }
 
-    public Vector3 GetStartPos()
+    public IEnumerator LevelThreeFin()
+    {
+        puzzle.SetActive(false);
+        tweener.AddTween(this.gameObject.transform, this.gameObject.transform.position, new Vector3(this.gameObject.transform.position.x - 14.0f, this.gameObject.transform.position.y, 0), 3.0f);
+        anim.SetFloat("MovingSpeed", 1.0f);
+        //yield return new WaitForSeconds(3.0f);
+        Debug.Log("Setting UI Active");
+        levelFinishedUI.SetActive(true);
+        levelFinishedText.text = "Attempts: " + stars.GetLevelAttempts();
+        yield return new WaitForSeconds(6.0f);
+
+    }
+
+        public Vector3 GetStartPos()
     {
         return this.transform.position;
     }
