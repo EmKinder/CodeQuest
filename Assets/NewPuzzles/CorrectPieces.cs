@@ -42,7 +42,7 @@ public class CorrectPieces : PieceTypes
         {
             if (stars.GetStarsCollected() == 2)
             {
-                cameraStartPos = Camera.main.transform.position;
+                //cameraStartPos = Camera.main.transform.position;
                 if (i == 0 && placedPieces[i] == PieceType.MoveForward)
                     level3FirstMoveCorrect = true;
                 if (i == 1 && placedPieces[i] == PieceType.MoveForward && level3FirstMoveCorrect)
@@ -92,9 +92,14 @@ public class CorrectPieces : PieceTypes
             {
                 Debug.Log("Incorrect!");
                 character.transform.position = startPos;
+                // Camera.main.transform.position = cameraStartPos;
                 if (stars.GetStarsCollected() == 2)
-
-                    RemoveAllPieces();
+                {
+                    float cameraZ = Camera.main.transform.position.z;
+                    Camera.main.transform.position = new Vector3(startPos.x, 0.0f, cameraZ);
+                    //Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, cameraZ);
+                }
+                //  RemoveAllPieces();
                 return;
             }
         }
